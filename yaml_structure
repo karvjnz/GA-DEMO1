@@ -1,0 +1,300 @@
+Workflow structure:
+====================
+#workflow name
+name:
+
+#push & branches = to trigger the workflow
+
+on:
+push:
+branches:[main]
+
+jobs:
+demo:
+runs-on: ubuntu-latest
+
+steps:
+-name: Greetinga
+run: echo "Hello World"
+
+=> lable of our runner is ubuntu-latest
+
+
+GitHub Actions Workflow Structure:
+==================================
+A GitHub Actions workflow is a YAML file that tells GitHub:
+When to run → What machine to use → What steps to execute
+
+A GitHub Actions workflow is a YAML file stored in .github/workflows/. It consists of:
+name → workflow name
+on → trigger event (push, pull request, schedule, manual)
+jobs → groups of tasks
+runs-on → runner machine (Ubuntu, Windows, macOS)
+steps → sequential actions inside a job
+run → execute shell commands
+uses → use prebuilt GitHub Actions
+
+The workflow automates CI/CD tasks such as building, testing, and deploying applications.
+
+
+Basic Workflow Structure:
+=========================
+name: My Workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Step 1
+        run: echo "Hello"
+
+      - name: Step 2
+        run: echo "World"
+
+1. name
+Defines the workflow name shown in the GitHub Actions page.
+name: My Workflow
+
+Example:
+==========
+name: CI Pipeline
+GitHub Actions page will display: CI Pipeline
+
+2. on
+Defines the event (trigger) that starts the workflow.
+
+on:
+  push:
+Common Triggers: Run on Push
+
+Run on Push Request: Whenever a code is pushed.
+on:
+  push:
+Whenever code is pushed.
+
+Run on Pull Request: Whenever a pull request is created or updated.
+on:
+  pull_request:
+
+Run Manually
+on:
+  workflow_dispatch:
+
+A Run Workflow button appears in GitHub.
+
+Run on Schedule - Runs every day at midnight.
+on:
+  schedule:
+    - cron: "0 0 * * *"
+
+Multiple Triggers:
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+  
+
+3. jobs - A workflow contains one or more jobs.
+
+jobs:
+Think of a job as:
+A group of related tasks executed on a runner.
+
+Example:
+========
+jobs:
+  build:
+    ...
+
+  test:
+    ...
+
+  deploy:
+    ...
+
+Workflow:
+=========
+Workflow
+│
+├── Build Job
+├── Test Job
+└── Deploy Job
+
+4. Job Name - The key under jobs is the job ID.
+
+jobs:
+  build:
+
+Here:
+Job ID = build
+
+Another example:
+jobs:
+  compile:
+  
+5. runs-on
+
+Specifies which machine executes the job.
+
+runs-on: ubuntu-latest
+
+Available runners:
+
+runs-on: ubuntu-latest
+runs-on: windows-latest
+runs-on: macos-latest
+
+Visual Representation:
+=====================
+GitHub Repository
+        │
+        ▼
+GitHub Runner
+(Ubuntu VM)
+        │
+        ▼
+Execute Steps
+
+6. steps - A job contains one or more steps.
+
+Example:
+
+steps:
+  - name: Step 1
+    run: echo "Hello"
+
+  - name: Step 2
+    run: pwd
+
+Execution order:
+================
+Step 1
+  ↓
+Step 2
+
+Steps run sequentially.
+
+7. name (Inside a Step) - Provides a friendly name for the step.
+
+- name: Print Greeting
+Appears in GitHub Actions logs.
+
+8. run - Executes a shell command.
+
+run: echo "Hello"
+
+Multiple commands:
+run: |
+  pwd
+  ls -la
+  echo "Done"
+  
+9. uses - Used to execute a prebuilt GitHub Action.
+
+Example:
+- uses: actions/checkout@v4
+This action downloads your repository code onto the runner.
+
+
+Complete Example:
+================
+name: Hello World
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  demo:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Print Greeting
+        run: echo "Hello World"
+
+      - name: Show Current Directory
+        run: pwd
+
+      - name: List Files
+        run: ls -la
+		
+
+Workflow Hierarchy
+Workflow
+│
+├── name
+│
+├── on
+│   └── push
+│
+└── jobs
+    │
+    └── demo
+        │
+        ├── runs-on
+        │   └── ubuntu-latest
+        │
+        └── steps
+            │
+            ├── checkout code
+            ├── print greeting
+            ├── pwd
+            └── ls -la
+			
+Real DevOps Pipeline Example
+name: CI Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Run Tests
+        run: npm test
+
+      - name: Build Application
+        run: npm run build
+
+Flow:
+
+Code Push
+    │
+    ▼
+GitHub Actions Triggered
+    │
+    ▼
+Runner Created
+    │
+    ▼
+Checkout Code
+    │
+    ▼
+Install Dependencies
+    │
+    ▼
+Run Tests
+    │
+    ▼
+Build Application
+    │
+    ▼
+Job Completed
