@@ -1,0 +1,17 @@
+name: Manual Workflow Test with inputs
+
+on:
+  workflow_dispatch:
+    inputs:
+      name:
+        description: 'Name'
+        type: string
+        default: 'test'
+
+jobs:
+  demo:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Greetings
+        run: echo "Hello World"  
