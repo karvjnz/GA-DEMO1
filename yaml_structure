@@ -1,3 +1,6 @@
+Source: https://www.youtube.com/playlist?list=PLBrle6N86WsSOfx9CuWhJTji15KTSD41m
+Github Actions Playlist:
+=======================
 Workflow structure:
 ====================
 #workflow name
@@ -152,19 +155,10 @@ runs-on: macos-latest
 
 Visual Representation:
 =====================
-GitHub Repository
-        │
-        ▼
-GitHub Runner
-(Ubuntu VM)
-        │
-        ▼
-Execute Steps
+GitHub Repository -> GitHub Runner(Ubuntu VM) -> Execute Steps
 
 6. steps - A job contains one or more steps.
-
 Example:
-
 steps:
   - name: Step 1
     run: echo "Hello"
@@ -181,15 +175,14 @@ Step 2
 Steps run sequentially.
 
 7. name (Inside a Step) - Provides a friendly name for the step.
-
 - name: Print Greeting
 Appears in GitHub Actions logs.
 
 8. run - Executes a shell command.
-
 run: echo "Hello"
 
 Multiple commands:
+------------------
 run: |
   pwd
   ls -la
@@ -274,27 +267,5 @@ jobs:
       - name: Build Application
         run: npm run build
 
-Flow:
-
-Code Push
-    │
-    ▼
-GitHub Actions Triggered
-    │
-    ▼
-Runner Created
-    │
-    ▼
-Checkout Code
-    │
-    ▼
-Install Dependencies
-    │
-    ▼
-Run Tests
-    │
-    ▼
-Build Application
-    │
-    ▼
+Flow: Code Push -> GitHub Actions Triggered -> Runner Created -> Checkout Code -> Install Dependencies -> Run Tests -> Build Application -> 
 Job Completed
